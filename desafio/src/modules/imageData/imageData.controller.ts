@@ -1,13 +1,14 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, Req } from '@nestjs/common';
+import { Request } from 'express';
 
 import { ImageDataService } from './imageData.service';
 
-@Controller('resizeImage')
+@Controller('image')
 export class ImageDataController {
   constructor(private readonly imageDataService: ImageDataService) {}
 
-  @Post()
-  resizeImage() {
-    return 'Testando!';
+  @Post('save')
+  imageSave(@Req() req: Request) {
+    return 'Testando!!';
   }
 }

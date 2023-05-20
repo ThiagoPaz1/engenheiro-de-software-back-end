@@ -6,7 +6,7 @@ import { ImageData } from './schemas/imageData.schema';
 import { CreateImageDataDto } from './dto/create-imageData.dto';
 
 @Injectable()
-export class ImageDataService {
+export class ImageDataRepository {
   constructor(
     @InjectModel(ImageData.name) private imageDataModel: Model<ImageData>,
   ) {}
