@@ -1,1 +1,1 @@
-# Seja bem vindo 😄:
+# Seja bem vindo 😄
