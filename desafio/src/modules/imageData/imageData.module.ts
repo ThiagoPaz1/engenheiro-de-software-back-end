@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { HttpModule } from '@nestjs/axios';
 
 import { ImageDataController } from './imageData.controller';
 import { ImageDataService } from './imageData.service';
 import { ImageDataSchema, ImageData } from './schemas/imageData.schema';
+import { ValidateImageData } from './middlewares/validateImageData.middleware';
 
 @Module({
   imports: [
@@ -16,4 +17,8 @@ import { ImageDataSchema, ImageData } from './schemas/imageData.schema';
   controllers: [ImageDataController],
   providers: [ImageDataService],
 })
-export class ImageDataModule {}
+export class ImageDataModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ValidateImageData).forRoutes('image');
+  }
+}

@@ -1,8 +1,7 @@
-import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ImageDataModule } from './modules/imageData/imageData.module';
-import { ValidateImageData } from './modules/imageData/middlewares/validateImageData.middleware';
 
 @Module({
   imports: [
@@ -12,8 +11,4 @@ import { ValidateImageData } from './modules/imageData/middlewares/validateImage
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ValidateImageData).forRoutes('image');
-  }
-}
+export class AppModule {}

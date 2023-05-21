@@ -27,7 +27,7 @@ export class ImageDataService {
       return { data: buffer };
     } catch (error) {
       const errorData = error as AxiosError;
-
+      console.log('dd =>>', errorData.code);
       return { data: errorData.code };
     }
   }

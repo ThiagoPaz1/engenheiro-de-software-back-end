@@ -1,17 +1,22 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
+import { ImageDataService } from '../imageData.service';
+
 @Injectable()
 export class ValidateImageData implements NestMiddleware {
+  constructor(private readonly imageDataService: ImageDataService) {}
+
   async use(req: Request, res: Response, next: NextFunction) {
     const { image, compress } = req.body;
+    const checkImage = await this.imageDataService.convertImageToBuffer(image);
 
-    if (!image) {
+    if (checkImage.data === 'ERR_BAD_REQUEST') {
       return res.status(400).json({
         errors: [
           {
             code: '400',
-            message: 'Image Url is required',
+            message: 'Enter a valid image url',
           },
         ],
       });
