@@ -1,5 +1,6 @@
-import { Controller, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
+import { Controller, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
+import * as fs from 'fs/promises';
 
 import { ImageDataService } from './imageData.service';
 
@@ -8,7 +9,9 @@ export class ImageDataController {
   constructor(private readonly imageDataService: ImageDataService) {}
 
   @Post('save')
-  imageSave(@Req() req: Request) {
-    return 'Testando!!';
+  async imageSave(@Req() req: Request, @Res() res: Response) {
+    return res.json({
+      message: 'checkImage',
+    });
   }
 }

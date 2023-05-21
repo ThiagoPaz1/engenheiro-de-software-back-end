@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class ValidateImageData implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, res: Response, next: NextFunction) {
     const { image, compress } = req.body;
 
     if (!image) {
@@ -11,7 +11,7 @@ export class ValidateImageData implements NestMiddleware {
         errors: [
           {
             code: '400',
-            message: 'Image Url  is required',
+            message: 'Image Url is required',
           },
         ],
       });
