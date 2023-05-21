@@ -1,6 +1,5 @@
 import { Controller, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
-import * as fs from 'fs/promises';
 
 import { ImageDataService } from './imageData.service';
 
@@ -10,6 +9,8 @@ export class ImageDataController {
 
   @Post('save')
   async imageSave(@Req() req: Request, @Res() res: Response) {
+    const { image } = req.body;
+    this.imageDataService.convertImageToBuffer(image);
     return res.json({
       message: 'checkImage',
     });

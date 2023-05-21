@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { ImageData } from './schemas/imageData.schema';
-import { CreateImageDataDto } from './dto/create-imageData.dto';
+import { CreateImageDataExifDto } from './dto/create-imageDataExif.dto';
 
 @Injectable()
 export class ImageDataRepository {
@@ -11,8 +11,10 @@ export class ImageDataRepository {
     @InjectModel(ImageData.name) private imageDataModel: Model<ImageData>,
   ) {}
 
-  async create(createImageDataDto: CreateImageDataDto): Promise<ImageData> {
-    const createdCat = new this.imageDataModel(createImageDataDto);
+  async create(
+    createImageDataExifDto: CreateImageDataExifDto,
+  ): Promise<ImageData> {
+    const createdCat = new this.imageDataModel(createImageDataExifDto);
     return createdCat.save();
   }
 }
