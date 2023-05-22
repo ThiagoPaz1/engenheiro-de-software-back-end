@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from 'axios';
 import { ExifParserFactory } from 'ts-exif-parser';
+import * as fs from 'fs/promises';
+import * as sharp from 'sharp';
 
 import { ImageDataRepository } from './imageData.repository';
 import { CreateImageDataDto } from './dto/create-imageData.dto';
@@ -47,8 +49,17 @@ export class ImageDataService {
       xResolution: exifData.tags.XResolution,
       yResolution: exifData.tags.YResolution,
     });
+    console.log('Aqui =>>>', create)
+    const path = './images/originalImage_and_newVersionImage';
 
-    // console.log('TESTE =>>>>>>', create);
-    return '';
+    await fs.writeFile(path + '/originalImg.jpg', buffer);
+    await sharp(path + '/originalImg.jpg')
+      .resize(400)
+      .jpeg({ quality: 50 })
+      .toFile(path + '/originalImg_thumb.jpg');
+
+    return {
+      ImageDataExif: create,
+    };
   }
 }
