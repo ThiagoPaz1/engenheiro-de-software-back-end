@@ -7,6 +7,8 @@ import * as sharp from 'sharp';
 
 import { ImageDataRepository } from './imageData.repository';
 import { CreateImageDataDto } from './dto/create-imageData.dto';
+import { imageResizeNumber } from 'src/helps/imageResizeNumber';
+import { ImageDataResponse } from './types';
 
 @Injectable()
 export class ImageDataService {
@@ -34,9 +36,10 @@ export class ImageDataService {
     }
   }
 
-  async createNewImageData(
-    createImageDataDto: CreateImageDataDto,
-  ): Promise<any> {
+  async createNewImageData(createImageDataDto: CreateImageDataDto): Promise<{
+    metadata: ImageDataResponse;
+    localpath: { original: string; thumb: string };
+  }> {
     const { image, compress } = createImageDataDto;
     const data = await this.convertImageToBuffer(image);
     const buffer = data.buffer as Buffer;
@@ -49,17 +52,25 @@ export class ImageDataService {
       xResolution: exifData.tags.XResolution,
       yResolution: exifData.tags.YResolution,
     });
-    console.log('Aqui =>>>', create)
-    const path = './images/originalImage_and_newVersionImage';
 
-    await fs.writeFile(path + '/originalImg.jpg', buffer);
-    await sharp(path + '/originalImg.jpg')
-      .resize(400)
-      .jpeg({ quality: 50 })
-      .toFile(path + '/originalImg_thumb.jpg');
+    const path = __dirname.replace('/dist/modules/imageData', '') + '/images';
+    const pathOriginalImg = path + `/${create.id}.jpg`;
+    const pathThumbImg = path + `/${create.id}_thumb.jpg`;
+    const resizeNumber = imageResizeNumber(compress, create.width);
+
+    await fs.writeFile(pathOriginalImg, buffer);
+
+    await sharp(pathOriginalImg)
+      .resize(resizeNumber)
+      .jpeg({ quality: 80 })
+      .toFile(pathThumbImg);
 
     return {
-      ImageDataExif: create,
+      localpath: {
+        original: pathOriginalImg,
+        thumb: pathThumbImg,
+      },
+      metadata: create,
     };
   }
 }

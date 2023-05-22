@@ -11,9 +11,11 @@ export class ImageDataController {
   @Post('save')
   async imageSave(@Body() req: CreateImageDataDto, @Res() res: Response) {
     const { image, compress } = req;
-    await this.imageDataService.createNewImageData({ image, compress });
-    return res.json({
-      message: 'checkImage',
+    const data = await this.imageDataService.createNewImageData({
+      image,
+      compress,
     });
+
+    return res.json(data);
   }
 }
