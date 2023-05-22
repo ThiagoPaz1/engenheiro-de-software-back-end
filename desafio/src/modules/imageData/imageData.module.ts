@@ -4,6 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 
 import { ImageDataController } from './imageData.controller';
 import { ImageDataService } from './imageData.service';
+import { ImageDataRepository } from './imageData.repository';
 import { ImageDataSchema, ImageData } from './schemas/imageData.schema';
 import { ValidateImageData } from './middlewares/validateImageData.middleware';
 
@@ -15,7 +16,7 @@ import { ValidateImageData } from './middlewares/validateImageData.middleware';
     HttpModule,
   ],
   controllers: [ImageDataController],
-  providers: [ImageDataService],
+  providers: [ImageDataService, ImageDataRepository],
 })
 export class ImageDataModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -9,10 +9,19 @@ export class ImageData {
   imageType: string;
 
   @Prop()
-  width: string;
+  width: number;
 
   @Prop()
-  height: string;
+  height: number;
+
+  @Prop()
+  deviceModel: string;
+
+  @Prop()
+  xResolution: number;
+
+  @Prop()
+  yResolution: number;
 }
 
 export const ImageDataSchema = SchemaFactory.createForClass(ImageData);

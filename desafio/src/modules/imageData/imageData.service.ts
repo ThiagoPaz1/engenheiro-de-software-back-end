@@ -1,41 +1,54 @@
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from 'axios';
+import { ExifParserFactory } from 'ts-exif-parser';
 
-import { ImageData } from './schemas/imageData.schema';
-import { CreateImageDataExifDto } from './dto/create-imageDataExif.dto';
+import { ImageDataRepository } from './imageData.repository';
+import { CreateImageDataDto } from './dto/create-imageData.dto';
 
 @Injectable()
 export class ImageDataService {
   constructor(
-    @InjectModel(ImageData.name) private imageDataModel: Model<ImageData>,
+    private readonly ImageDataRepository: ImageDataRepository,
     private readonly httpService: HttpService,
   ) {}
 
   async convertImageToBuffer(
     image: string,
-  ): Promise<{ data: Buffer | string }> {
+  ): Promise<{ buffer: Buffer | string; imageType?: string }> {
     try {
       const response = await this.httpService.axiosRef.get(image, {
         responseType: 'arraybuffer',
       });
+      const imageType = await response.headers['content-type'];
       const data = await response.data;
       const buffer = Buffer.from(data);
 
-      return { data: buffer };
+      return { buffer, imageType };
     } catch (error) {
       const errorData = error as AxiosError;
-      console.log('dd =>>', errorData.code);
-      return { data: errorData.code };
+
+      return { buffer: errorData.code };
     }
   }
 
-  async create(
-    createImageDataExifDto: CreateImageDataExifDto,
-  ): Promise<ImageData> {
-    const createdCat = new this.imageDataModel(createImageDataExifDto);
-    return createdCat.save();
+  async createNewImageData(
+    createImageDataDto: CreateImageDataDto,
+  ): Promise<any> {
+    const { image, compress } = createImageDataDto;
+    const data = await this.convertImageToBuffer(image);
+    const buffer = data.buffer as Buffer;
+    const exifData = ExifParserFactory.create(buffer).parse();
+    const create = await this.ImageDataRepository.create({
+      width: exifData.imageSize.width,
+      height: exifData.imageSize.height,
+      imageType: data.imageType,
+      deviceModel: exifData.tags.Model,
+      xResolution: exifData.tags.XResolution,
+      yResolution: exifData.tags.YResolution,
+    });
+
+    // console.log('TESTE =>>>>>>', create);
+    return '';
   }
 }

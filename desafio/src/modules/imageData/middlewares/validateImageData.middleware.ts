@@ -11,7 +11,7 @@ export class ValidateImageData implements NestMiddleware {
     const { image, compress } = req.body;
     const checkImage = await this.imageDataService.convertImageToBuffer(image);
 
-    if (checkImage.data === 'ERR_BAD_REQUEST') {
+    if (checkImage.buffer === 'ERR_BAD_REQUEST') {
       return res.status(400).json({
         errors: [
           {
@@ -22,13 +22,13 @@ export class ValidateImageData implements NestMiddleware {
       });
     }
 
-    if (!compress || compress < 0.1 || compress > 1) {
+    if (!compress || compress < 0.01 || compress > 1) {
       return res.status(400).json({
         errors: [
           {
             code: '400',
             message:
-              'Compression field is required, enter a number from 0.1 to 1',
+              'Compression field is required, enter a number from 0.01 to 1',
           },
         ],
       });
