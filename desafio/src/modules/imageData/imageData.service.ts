@@ -53,6 +53,10 @@ export class ImageDataService {
       yResolution: exifData.tags.YResolution,
     });
 
+    await fs.mkdir(
+      __dirname.replace('/dist/modules/imageData', '') + '/images',
+    );
+
     const path = __dirname.replace('/dist/modules/imageData', '') + '/images';
     const pathOriginalImg = path + `/${create.id}.jpg`;
     const pathThumbImg = path + `/${create.id}_thumb.jpg`;
