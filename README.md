@@ -1,7 +1,7 @@
 # Seja bem vindo 😄
 ## Api para redimensionamento de imagens
 
-### Instruções para instalação:
+## Instruções para instalação:
 
 #### 1 - No seu terminal, já dentro do projeto, entre na pasta /desafio, e digite o comando killall node, para garantir que não existe nenhum processo que esta utilizando a porta do servidor.
 #### 2 - Ainda na pasta /desafio, digite o comando npm install, para instalar as dependências do projeto.
