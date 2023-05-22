@@ -3,8 +3,8 @@
 
 ### Instruções para instalação:
 
-#### 1 - No seu terminal, já dentro do projeto, e digite o comando killall node, para garantir que não existe nenhum processo que esta utilizando a porta do servidor.
-#### 2 - Ainda na pasta /api-task-list, e digite o comando npm install, para instalar as dependências do projeto.
+#### 1 - No seu terminal, já dentro do projeto, entre na pasta /desafio, e digite o comando killall node, para garantir que não existe nenhum processo que esta utilizando a porta do servidor.
+#### 2 - Ainda na pasta /desafio, digite o comando npm install, para instalar as dependências do projeto.
 #### 3 - Último passo, digite o comando npm run start:dev, para iniciar a api.
 
 #### Pronto! Agora a aplicação esta completa e pronta para uso 🚀🚀🚀
