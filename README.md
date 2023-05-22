@@ -22,3 +22,15 @@ BODY:
     "compress": 0.9
 }
 ```
+## Tecnologias utilizadas:
+<ol>
+    <li>NestJS</li>
+    <li>MongoDB</li>
+    <li>Mongoose</li>
+    <li>Axios</li>
+    <li>Sharp</li>
+    <li>ts-exif-parser</li>
+</ol>
+
+## Observações:
+O arquivo .env, que contém as variáveis de ambiente, não foi adicionado ao arquivo .gitignore, para uma maior comodidade de quem for testar o projeto, mas não é uma boa prática, e deve ser evitada.
