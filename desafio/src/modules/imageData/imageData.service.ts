@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosError } from 'axios';
 import { ExifParserFactory } from 'ts-exif-parser';
+import { existsSync } from 'fs';
 import * as fs from 'fs/promises';
 import * as sharp from 'sharp';
 
@@ -53,9 +54,12 @@ export class ImageDataService {
       yResolution: exifData.tags.YResolution,
     });
 
-    await fs.mkdir(
-      __dirname.replace('/dist/modules/imageData', '') + '/images',
-    );
+    const createDir =
+      __dirname.replace('/dist/modules/imageData', '') + '/images';
+
+    if (!existsSync(createDir)) {
+      await fs.mkdir(createDir);
+    }
 
     const path = __dirname.replace('/dist/modules/imageData', '') + '/images';
     const pathOriginalImg = path + `/${create.id}.jpg`;
